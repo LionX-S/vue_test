@@ -9,7 +9,16 @@ Vue.config.productionTip = false
 // 使用插件
 Vue.use(plugin);
 
+// 这样写太麻烦
+// const Demo = Vue.extend({});
+// const d = new Demo();
+// Vue.prototype.x = d;
+
+// 还可以通过vm来实现,$bus
 new Vue({
   el: `#app`,
   render: h => h(App),
+  beforeCreate() {
+    Vue.prototype.$bus = this
+  }
 })
