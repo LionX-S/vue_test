@@ -12,16 +12,16 @@ this.$refs.xxx
 ```
 ## 配置项props
 功能：让组件接收外部传过来的数据
-（1）传递数据
+1.传递数据
 ```html
 <h1 name="xxxx"/>
 ```
-（2）接收数据
-第一种方式（只接收）：
+2.接收数据
+$\quad$第一种方式（只接收）：
 ```JavaScript
 props['name']
 ```
-第二种方式（限制类型）：
+$\quad$第二种方式（限制类型）：
 ```JavaScript
 props:{
   name:String
@@ -82,8 +82,8 @@ Vue.use()
 1.组件化编码流程：
 （1）拆分静态组件：组件要按照功能点拆分，命名不要与html元素冲突。
 （2）实现动态组件：考虑好数据的存放位置，数据是一个组件在用，还是一些组件在用：
-$\qquad$1）一个组件在用时，放在组件自身即可。
-$\qquad$2）一些组件在用时，放在他们共同的父组件上（状态提升）
+$\quad$1）一个组件在用时，放在组件自身即可。
+$\quad$2）一些组件在用时，放在他们共同的父组件上（状态提升）
 （3）实现交互：从绑定事件开始。
 2.props适用于：
 （1）父组件===>子组件通信
@@ -94,13 +94,13 @@ $\qquad$2）一些组件在用时，放在他们共同的父组件上（状态�
 1.一种组件通信的方式，适用于子组件==>父组件
 2.使用场景：A是父组件，B是子组件，B想给A传数据，那么就要在A中给B绑定自定义事件（事件的回调在A中）
 3.绑定自定义事件：
-$\qquad$(1).第一种方式，在父组件中
+$\quad$(1).第一种方式，在父组件中
 ```html
 <Demo @demo='test'></Demo>
 或者
 <Demo v-on:demo='test'></Demo>
 ```
-$\qquad$(2).第二种方式，在父组件中
+$\quad$(2).第二种方式，在父组件中
 ```JavaScript
 <Demo ref="demo"></Demo>
 ...
@@ -108,7 +108,7 @@ mounted(){
   this.$ref.xxx.$on('testFun',this.testFun)
 }
 ```
-$\qquad$(3).若想让自定义事件只触发一次，可以使用once修饰符，或者$once方法。
+$\quad$(3).若想让自定义事件只触发一次，可以使用once修饰符，或者$once方法。
 4.触发自定义事件：
 ```JavaScript
 this.$emit('testFun',数据)
@@ -135,7 +135,7 @@ new Vue({
 })
 ```
 3.使用事件总线：
-$\qquad$1.接收数据：A组件想接收数据，则在A组件中给$bus绑定自定义事件，事件的回调留在A组件自身
+$\quad$1.接收数据：A组件想接收数据，则在A组件中给$bus绑定自定义事件，事件的回调留在A组件自身
 ```JavaScript
 methods() {
   demo(data){...}
@@ -145,14 +145,14 @@ mountde() {
   this.$bus.$on('xxx',this.demo)
 }
 ```
-$\qquad$2.提供数据：```this.$bus.$emit('xxx',数据)```
+$\quad$2.提供数据：```this.$bus.$emit('xxx',数据)```
 4.最好在beforeDestory钩子中，用$off去解绑当前组件所用到的事件。
 ##消息订阅与发布（pubsub库）
 1.一种组件间通信的方式，适用于任意组件间通信。
 2.使用步骤：
-$\qquad$1.安装pubsub，```npm i pubsub-js```
-$\qquad$2.引入：```import pubsub from 'pubsub-js'```
-$\qquad$3.接收数据：A组件想接收数据，则在A组件中订阅消息，订阅的回调留在A组件自身。
+$\quad$1.安装pubsub，```npm i pubsub-js```
+$\quad$2.引入：```import pubsub from 'pubsub-js'```
+$\quad$3.接收数据：A组件想接收数据，则在A组件中订阅消息，订阅的回调留在A组件自身。
 ```JavaScript
 methods(){
   demo(data){...}
@@ -167,3 +167,24 @@ mounted() {
 1.语法：```this.$nextTick(回调函数)```
 2.作用：在下一次DOM更新结束后执行其指定的回调。
 3.什么时候用：当改变数据后，要基于更新后的新DOM进行某些操作时，要在nextTick所指定的回调函数中执行。
+##Vue封装的过渡与动画
+1.作用：在插入、更新或移除DOM元素时，在合适的时候给元素添加样式类名。
+2.写法：
+$\quad$(1).准备好样式：
++ 元素进入时的样式：
+$\qquad$1.v-enter:进入的起点
+$\qquad$2.v-enter-active:进入的过程中
+$\qquad$3.v-enter-to:进入的终点
++ 元素离开时的样式：
+$\qquad$1.v-leave:离开的起点
+$\qquad$2.v-leave-active:离开的过程中
+$\qquad$3.v-leave-to:离开的终点
+$\quad$(2).使用<transition>包裹要过渡的元素，并配置name属性
+```html
+<transition name='hello'>
+  <h1 v-show='isShow'>
+    你好
+  </h1>
+</transition>
+```
+$\quad$(3).备注：若有多个元素需要过渡，则使用<transition-group>,且每个元素都需要指定的key值。
