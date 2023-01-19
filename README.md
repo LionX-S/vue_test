@@ -141,7 +141,7 @@ methods() {
   demo(data){...}
 }
 ...
-mountde() {
+mounted() {
   this.$bus.$on('xxx',this.demo)
 }
 ```
@@ -179,6 +179,7 @@ $\qquad$3.v-enter-to:进入的终点
 $\qquad$1.v-leave:离开的起点
 $\qquad$2.v-leave-active:离开的过程中
 $\qquad$3.v-leave-to:离开的终点
+
 $\quad$(2).使用<transition>包裹要过渡的元素，并配置name属性
 ```html
 <transition name='hello'>
