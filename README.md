@@ -38,7 +38,7 @@ props:{
 }
 ```
 备注：props是只读的，Vue底层会监测你对props的修改，如果进行了修改，就会发出警告，若业务需求需要修改，那么请复制props内容到data中一份，然后去修改data中的数据。
-## minxin(混入)
+## mixin(混入)
 功能：可以把多个组件公用的配置提取成一个混入对象
 第一步定义混入：
 ```JavaScript
@@ -189,3 +189,44 @@ $\quad$(2).使用<transition>包裹要过渡的元素，并配置name属性
 </transition>
 ```
 $\quad$(3).备注：若有多个元素需要过渡，则使用<transition-group>,且每个元素都需要指定的key值。
+
+##vue脚手架配置代理
+方法一：
+$\quad$在vue.config.js中添加如下配置：
+```JavaScript
+devServer:{
+  proxy:'http://localhost:5000'
+}
+```
+说明：
+$\quad$1.优点：配置简单，请求资源时直接发送给前端（8080）即可。
+$\quad$2.缺点：不能配置多个代理，不能灵活的控制请求是否走代理。
+$\quad$3.工作方式：若按照上述配置代理，当请求了前端不存在的资源时，那么请求会转发给服务器（优先匹配前端资源）
+方法二：
+$\quad$编写vue.config.js具体代理规则：
+```JavaScript
+module.exports={
+  devServe: {
+    proxy: {
+      '/api1': {//匹配以‘/api1’开头的请求路径
+        target: 'http://localhost:5001',//代理目标的基础路径
+        changeOrigin: true,
+        pathRewrite: {'^/api1': ''} //此配置项必须写
+      },
+      '/api2': {//匹配以‘/api2’开头的请求路径
+        target: 'http://localhost:5001',//代理目标的基础路径
+        changeOrigin: true,
+        pathRewrite: {'^/api2': ''} //此配置项必须写
+      }
+    }
+  }
+}
+/*
+  changeOrigin设置为true时，服务器收到的请求头中的host为：localhost:5001,
+  changeOrigin设置为false时，服务器收到的请求头中的host为：localhost:8080,
+  changeOrigin默认值为true
+*/
+```
+说明：
+$\quad$1.优点：可以配置多个代理，且可以灵活的控制请求是否走代理。
+$\quad$2.配置略微繁琐，请求资源时必须加前缀。
