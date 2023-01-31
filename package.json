@@ -13,7 +13,8 @@
     "express": "^4.18.2",
     "nanoid": "^4.0.0",
     "pubsub-js": "^1.9.4",
-    "vue": "^2.6.14"
+    "vue": "^2.6.14",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

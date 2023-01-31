@@ -243,3 +243,219 @@ module.exports={
 说明：
 $\quad$1.优点：可以配置多个代理，且可以灵活的控制请求是否走代理。
 $\quad$2.配置略微繁琐，请求资源时必须加前缀。
+
+##插槽
+$\quad$1.作用:让父组件可以向子组件指定位置插入html结构，也是一种组件间通信的方式，适用于父组件==>子组件
+$\quad$2.分类：默认插槽、具名插槽、作用域插槽
+$\quad$3.使用方式
+$\qquad$1.默认插槽
+```html
+父组件中：
+<Category>
+  <div>html结构</div>
+</Category>
+子组件中：
+<template>
+  <div>
+    <!-- 定义插槽 -->
+    <slot>插槽默认内容...</slot>
+  </div>
+</template>
+```
+$\qquad$2.具名插槽
+```html
+父组件中：
+<Category>
+  <template slot="center">
+    <div>html结构1</div>
+  </template>
+  <!-- v-slot是新的语法 -->
+  <template v-slot:footer>
+    <div>html结构2</div>
+  </template>
+</Category>
+子组件中：
+<template>
+  <div>
+    <!-- 定义插槽 -->
+    <slot name="center">插槽黙以内容...</slot>
+    <slot name="footer">插槽默认内容...</slot>
+  </div>
+</template>
+```
+$\qquad$3.作用域插槽
+$\qquad\qquad$1.理解：数据在组件的自身vue文件中，但根据数据生成的结构需要组件的使用者来决定。
+$\qquad\qquad$2.具体编码：
+```html
+父组件中：
+<Category>
+  <template scope="scopeData">
+    <!-- 生成的是ul列表 -->
+    <ul>
+      <li v-for="g in scopeData.games" :key="g">{{g}}</li>
+    </ul>
+  </template>
+</Category>
+<Category>
+  <template slot-scope="scopeData">
+    <!-- 生成的是h4标题  -->
+    <h4 v-for=''g in scopeData.games"
+    :key="g">{{g}}</h4>
+  </template> 
+</Category>
+子组件中：
+<template>
+  <div></div>
+</template>
+<slot :games="games"></slot>
+<script>
+  export default {
+    name: 'Category',
+    props: ['title'], //数据在子组件自身
+    data() {
+      return {
+        games：["红色警戒"，"穿越火线"，"劲舞团"，"超級玛丽"]
+      }
+    }
+  }
+</script>
+```
+##Vuex
+###1.概念
+$\quad$在Vue中实现集中式状态（数据）管理的一个vue插件，对vue应用中多个组件的共享状态进行集中式的管理（读/写），也是一种组件间的通信方式，且属于任意组件间通信。
+###2.何时使用？
+$\quad$多个组件需要共享数据时
+###3.搭建vuex环境
+$\quad$1.创建文件 src/store/index.js
+```JavaScript
+//引入vue核心库
+import Vue from 'vue'
+import Vuex from 'vuex'
+//应用Vuex插件
+Vue. use(Vuex)
+//淮备actions对象 响应组件中用户的动作
+const actions = {}
+//准备mutations对象 修改state中的数据
+const mutations ={}
+//准备state对象 保存具体的数据
+const state = {}
+//创建并暴露store
+export default new Vuex.Store({
+  actions, 
+  mutations, 
+  state
+})
+```
+$\quad$2.在main.js中创建vm时传入store配置项
+```JavaScript
+// 引入store
+import store from './store';
+new Vue({
+  el: `#app`,
+  render: h => h(App),
+  store
+})
+```
+###4.基本使用
+$\quad$1.初始化数据、配置actions、配置mutations、操作文件store.js
+```JavaScript
+import Vuex from "vuex";
+import Vue from "vue";
+Vue.use(Vuex);
+
+// action:用于响应组件中的动作
+const actions = {
+  // 这两个只是转发，可以省略，组件直接调用commit即可
+	// increment(context, value) {
+	// 	context.commit("Increment", value);
+	// },
+	// decrement(context, value) {
+	// 	context.commit("Decrement", value);
+	// },
+	incrementOdd(context, value) {
+		if (context.state.sum % 2) {
+			context.commit("Increment", value);
+		}
+	},
+	incrementWait(context, value) {
+		setTimeout(() => {
+			context.commit("Increment", value);
+		}, 500);
+	}
+};
+// 用于存储数据
+const state = {sum: 0};
+// 用于操作数据（state）
+const mutations = {
+	Increment(state, value) {
+		state.sum += value;
+	},
+	Decrement(state, value) {
+		state.sum -= value;
+	}
+};
+
+export default new Vuex.Store({
+	actions,
+	mutations,
+	state
+});
+```
+$\quad$2.组件中读取vuex中的数据:$store.state.sum
+
+$\quad$3.组件中修改vuex中的数据:$store.dispatch('action中的方法名',数据)或 $store.commit('mutations中的方法名',数据）
+$\quad$**备注**若没有网络请求或其他业务逻辑，组件中也可以越过actions，即不写dispatch，直接编写 commit
+###5.getters的使用
+```JavaScript
+// 用于加工state中的数据
+const getters = {
+  bigNum(state) {
+    return state.sum * 10
+  }
+}
+
+export default new Vuex.Store({
+	// ...
+	actions,
+	mutations,
+	state,
+  getters
+});
+
+```
+###6.四个map方法的使用
+$\quad$1.**mapState方法**:用于帮我们映射state中的数据为计算属性
+```JavaScript
+computed: {
+  // 借助mapState生成计算属性，sum、school、subject（对象写法）
+  ...mapState({sum:'sum',school:'school',subject:'subject'});
+  // 借助mapState生成计算属性，sum、school、subject（数组写法）
+  ...mapState(['sum','school','subject'])
+}
+```
+$\quad$2.**mapGetters方法**:用于帮我们映射getters中的数据为计算属性
+```JavaScript
+computed: {
+  // 借助mapState生成计算属性，bigSum（对象写法）
+  ...mapGetters({bigSum:'bigSum'});
+  // 借助mapState生成计算属性，bigSum（数组写法）
+  ...mapState(['bigSum']);
+}
+```
+$\quad$3.**mapActions方法**:用于帮我们生成与action对话中的方法,即包含$store.dispatch(xxx)的函数
+```JavaScript
+methods: {
+//靠mapActions生成：incrementOdd、incrementWait（对象形式）
+...mapActions ({incrementOdd: 'incrementOdd', incrementWait: 'incrementWait').
+//靠mapActions生成：incrementOdd、incrementWait（数组形式）
+...mapActions (['incrementOdd', 'incrementWait'])
+```
+$\quad$4.**mapMutations方法**:用于帮我们生成与mutations对话中的方法,即包含$store.commit(xxx)的函数
+```JavaScript
+methods: {
+//靠mapMutations生成：incrementOdd、incrementWait（对象形式）
+...mapMutations ({incrementOdd: 'IncrementOdd', incrementWait: 'IncrementWait').
+//靠mapActions生成：incrementOdd、incrementWait（数组形式）
+...mapMutations (['IncrementOdd', 'IncrementWait'])
+```
+$\quad$**备注:** mapActions与mapMutations使用时，若需要传递参数：在模版中绑定事件时传递好参数，否则参数是事件对象。
