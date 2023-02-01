@@ -3,10 +3,9 @@ import Vue from "vue";
 
 Vue.use(Vuex);
 
-
 // action:用于响应组件中的动作
 const actions = {
-  // 这两个只是转发，可以省略，组件直接调用commit即可
+	// 这两个只是转发，可以省略，组件直接调用commit即可
 	increment(context, value) {
 		context.commit("Increment", value);
 	},
@@ -26,7 +25,8 @@ const actions = {
 };
 // 用于存储数据
 const state = {
-	sum: 0
+	sum: 0,
+	personList: []
 };
 // 用于操作数据（state）
 const mutations = {
@@ -35,20 +35,23 @@ const mutations = {
 	},
 	Decrement(state, value) {
 		state.sum -= value;
+	},
+	SubmitPerson(state, value) {
+		state.personList.unshift(value);
 	}
 };
 
 // 用于加工state中的数据
 const getters = {
-  bigNum(state) {
-    return state.sum * 10
-  }
-}
+	bigNum(state) {
+		return state.sum * 10;
+	}
+};
 
 export default new Vuex.Store({
 	// ...
 	actions,
 	mutations,
 	state,
-  getters
+	getters
 });
