@@ -33,8 +33,9 @@
 			};
 		},
 		computed: {
-			...mapState(["sum", "personList"]),
-			...mapGetters(["bigNum"])
+			...mapState('count',["sum"]),
+			...mapState('person',["personList"]),
+			...mapGetters('count',["bigNum"])
 		},
 		methods: {
 			// increment() {
@@ -45,14 +46,14 @@
 			// 	// this.$store.dispatch("decrement", this.n);
 			// 	this.$store.commit("Decrement", this.n);
 			// },
-			...mapMutations({ increment: "Increment", decrement: "Decrement" }),
+			...mapMutations('count',{ increment: "Increment", decrement: "Decrement" }),
 			// incrementOdd() {
 			// 	this.$store.dispatch("incrementOdd", this.n);
 			// },
 			// incrementWait() {
 			// 	this.$store.dispatch("incrementWait", this.n);
 			// }
-			...mapActions(["incrementOdd", "incrementWait"])
+			...mapActions('count',["incrementOdd", "incrementWait"])
 		}
 	};
 </script>

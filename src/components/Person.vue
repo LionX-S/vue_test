@@ -31,12 +31,13 @@
 		methods: {
 			submitPerson() {
 				this.personNameObj = { id: nanoid(), name: this.personName };
-				this.$store.commit("SubmitPerson", this.personNameObj);
+				this.$store.commit("person/SubmitPerson", this.personNameObj);
 				this.personName = "";
 			}
 		},
 		computed: {
-			...mapState(["personList", "sum"])
+			...mapState("count", ["sum"]),
+			...mapState("person", ["personList"])
 		}
 	};
 </script>

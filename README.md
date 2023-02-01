@@ -459,3 +459,57 @@ methods: {
 ...mapMutations (['IncrementOdd', 'IncrementWait'])
 ```
 $\quad$**备注:** mapActions与mapMutations使用时，若需要传递参数：在模版中绑定事件时传递好参数，否则参数是事件对象。
+
+###7.模块化+命名空间
+$\quad$1.目的：让代码更好维护，让多种数据分类更加明确
+$\quad$2.修改store.js
+```JavaScript
+const countOptions = {
+	namespaced: true,
+	actions: {},
+	mutations: {},
+	state: {},
+	getters: {}
+};
+const personOptions = {
+	namespaced: true,
+	actions: {},
+	mutations: {},
+	state: {},
+	getters: {}
+};
+const store = new Vuex.Store({
+	modules:{
+		count: countOptions,
+		person: personOptions
+	}
+});
+```
+$\quad$3.开启命名空间后，组件中读取state数据
+```JavaScript
+  //方式一：自己直接读取
+  this.$store.state.countOption.sum
+  // 方式二：借助mapState读取
+  ...mapState('countOption',['sum'])
+```
+$\quad$4.开启命名空间后，组件中读取getters数据
+```JavaScript
+  //方式一：自己直接读取
+  this.$store.getters['countOption/bigNum']
+  // 方式二：借助mapGetters读取
+  ...mapGetters('countOption',['bigNum'])
+```
+$\quad$5.开启命名空间后，组件中调用dispatch
+```JavaScript
+  //方式一：自己直接dispatch
+  this.$store.dispatch('countOptions/increment',value)
+  // 方式二：借助mapActions读取
+  ...mapActions('countOption',['increment'])
+```
+$\quad$6.开启命名空间后，组件中调用commit
+```JavaScript
+  //方式一：自己直接commit
+  this.$store.commit('countOptions/Increment',value)
+  // 方式二：借助mapMutations读取
+  ...mapMutations('countOption',{increment:'Increment'})
+```
