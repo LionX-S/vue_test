@@ -4,8 +4,9 @@ import VueRouter from "vue-router";
 // 引入组件
 import About from "../pages/About.vue";
 import Home from "../pages/Home.vue";
-import News from '../pages/News.vue';
-import Message from '../pages/Message.vue';
+import News from "../pages/News.vue";
+import Message from "../pages/Message.vue";
+import Details from '../pages/Details.vue';
 
 const router = new VueRouter({
 	routes: [
@@ -14,16 +15,28 @@ const router = new VueRouter({
 			component: About
 		},
 		{
+			name:'zhuYe',
 			path: "/home",
 			component: Home,
-			children:[
+			children: [
 				{
-					path:'news',
+					path: "news",
 					component: News
 				},
 				{
-					path:'message',
-					component: Message
+					path: "message",
+					component: Message,
+					children: [
+						{
+							path: "details",
+							component: Details,
+						},
+						{
+							name:'detailsParams',
+							path: "details/:id/:title",
+							component: Details,
+						},
+					]
 				}
 			]
 		}

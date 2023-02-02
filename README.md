@@ -735,3 +735,131 @@ $\quad$ 2.跳转（要写完整路径）：
 ```html
 <router-link to="/home/news">News</router-link>
 ```
+
+### 4.路由的query参数
+
+$\quad$ 1.传递参数
+
+```html
+<!-- 跳转并携带query参数，to的字符串写法 -->
+<router-link :to="/home/message/details?id=666&title=你好">跳转</router-link>
+
+<!-- 跳转并携带query参数，to的对象写法 -->
+<router-link
+    :to="{
+	    path: '/home/message/details',
+		query: {
+		    id: 666,
+		    title: '你好'
+		   }
+		}">跳转</router-li>
+```
+
+$\quad$ 2.接收参数：
+
+```javascript
+$route.query.id
+$route.query.title
+```
+
+### 5.命名路由
+
+$\quad$ 1.作用：可以简化路由的跳转。
+
+$\quad$ 2.如何使用
+
+$\quad\quad$ 1.给路由命名：
+
+```javascript
+{
+	name:'zhuYe',//给路由命名
+	path: "/home",
+	component: Home,
+	children: [
+		{
+			path: "news",
+			component: News
+		},
+		{
+			path: "message",
+			component: Message,
+			children: [
+				{
+					path: "details",
+					component: Details,
+				}
+			]
+		}
+	]
+}
+```
+
+$\quad\quad$ 2.简化跳转：
+
+```html
+＜!--简化前，需要写完整的路径-->
+<router-link to="demo/test/welcome">跳转</router-link>
+＜!--简化后，直接通过名字跳转-->
+<router-link :to="name:'hel1o'">跳转</router-1ink>
+＜!--简化写法配合传递参数--＞
+<router-link
+  :to="{
+    name: 'hello',
+    query: {
+       id:666,
+       title:'你好'
+    }">
+跳转</router-link>
+```
+
+### 6.路由的params参数
+
+$\quad$ 1.配置路由，声明接收params参数
+
+```javascript
+{
+    path: '/home', 
+    component: Home,
+    children:[
+    {    
+      path: 'news', 
+      component: News
+    },
+   {
+    component: Message, 
+    children: [
+      {
+       name: 'xiangqing',
+       path:'detail/:id/:tit1e'，//使用占位符声明接收params参数
+       component: Detail
+      }
+    ]
+   }
+  ]
+}
+```
+
+$\quad$ 2.传递参数
+
+```html
+<!--跳转并携带params参数，to的字符串写法-->
+<router-link :to="/home/message/detai1/666/你好">跳转</router-1ink>
+<!--跳转并携带params参数，to的对象写法-->
+<router-link
+:to="{
+  name:'xiangqing',
+  params:{
+   id:666,
+   title：'你好',
+}"
+>跳转</router-link>
+```
+
+> 路由携带params参数时，若使用to的对象写法，则不能使用path配置项，必须使用name配置！
+
+$\quad$ 3.接收参数
+
+```javascript
+$route.params.id
+$route.params.title
+```
