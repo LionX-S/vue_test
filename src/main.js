@@ -1,20 +1,16 @@
-import Vue from 'vue'
-import App from './App.vue'
-// 引入插件
-import plugin from './plugins'
+import Vue from "vue";
+import App from "./App.vue";
+import VueRouter from "vue-router";
+import router from "./router";
 
-// 引入store
-import store from './store';
 // 关闭生产提示
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
-// 使用插件
-Vue.use(plugin);
+// use router
+Vue.use(VueRouter);
+
 new Vue({
-  el: `#app`,
-  render: h => h(App),
-  store,
-  beforeCreate(){
-    Vue.prototype.$bus = this
-  }
-})
+	el: `#app`,
+	render: (h) => h(App),
+	router
+});

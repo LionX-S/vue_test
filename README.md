@@ -111,9 +111,9 @@ Vue.use()
 （1）拆分静态组件：组件要按照功能点拆分，命名不要与html元素冲突。
 （2）实现动态组件：考虑好数据的存放位置，数据是一个组件在用，还是一些组件在用：
 
-$\quad$1）一个组件在用时，放在组件自身即可。
+$\quad$ 1）一个组件在用时，放在组件自身即可。
 
-$\quad$2）一些组件在用时，放在他们共同的父组件上（状态提升）
+$\quad$ 2）一些组件在用时，放在他们共同的父组件上（状态提升）
 （3）实现交互：从绑定事件开始。
 2.props适用于：
 （1）父组件===>子组件通信
@@ -388,6 +388,8 @@ $\qquad\qquad$2.具体编码：
 
 $\quad$在Vue中实现集中式状态（数据）管理的一个vue插件，对vue应用中多个组件的共享状态进行集中式的管理（读/写），也是一种组件间的通信方式，且属于任意组件间通信。
 
+![Vuex图示](https://vuex.vuejs.org/vuex.png)
+
 ### 2.何时使用？
 
 $\quad$多个组件需要共享数据时
@@ -627,9 +629,60 @@ $\quad$5.开启命名空间后，组件中调用dispatch
 
 $\quad$6.开启命名空间后，组件中调用commit
 
-```JavaScrit
+```javascript
   //方式一：自己直接commit
   this.$store.commit('countOptions/Increment',value)
   // 方式二：借助mapMutations读取
   ...mapMutations('countOption',{increment:'Increment'})
+```
+
+## 路由
+
+$\quad$ 1.理解：一个路由（router）就是一组映射关系（key-value），多个路由需要路由器（router）进行管理。
+
+$\quad$ 2.前端路由：key是路径，value是组件。
+
+### 1.基本使用
+
+$\quad$ 1.安装vue-touter，命令：```npm i vue-router```
+
+$\quad$ 2.应用插件：```Vue.use(VueRouter)```
+
+   3.编写router配置项：
+
+```javascript
+// 用于创建整个应用的路由器
+import VueRouter from "vue-router";
+
+// 引入组件
+import About from "../components/About.vue";
+import Home from "../components/Home.vue";
+
+const router = new VueRouter({
+	routes: [
+		{
+			path: "/about",
+			component: About
+		},
+		{
+			path: "/home",
+			component: Home
+		}
+	]
+});
+
+export default router;
+
+```
+
+$\quad$ 4.实现切换（active-class可配置active样式类）
+
+```html
+<router-link active-class='active' to='/about'>About</router-link>
+```
+
+$\quad$ 5.指定展示位置
+
+```html
+<router-view></router-view>
 ```
