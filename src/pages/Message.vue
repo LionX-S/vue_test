@@ -4,8 +4,8 @@
 			<li
 				v-for="m in messageList"
 				:key="m.id">
-        <span v-if="m.id != '004'">
-          <router-link
+				<span v-if="m.id != '004'">
+					<!-- <router-link
 					:to="{
 						path: '/home/message/details',
 						query: {
@@ -13,19 +13,22 @@
 							title: m.title
 						}
 					}"
-					>{{ m.title }}</router-link>
-        </span>
+					>{{ m.title }}</router-link> -->
+					{{ m.title }}
+					<button @click="pushLink(m)">push跳转</button>
+				</span>
 				<span v-if="m.id == '004'">
-          <router-link
-					:to="{
-						name:'detailsParams',
-						params: {
-							id: m.id,
-							title: m.title
-						}
-					}"
-					>{{ m.title }}</router-link>
-        </span>
+					<router-link
+						:to="{
+							name: 'detailsParams',
+							params: {
+								id: m.id,
+								title: m.title
+							}
+						}"
+						>{{ m.title }}</router-link
+					>
+				</span>
 			</li>
 		</ul>
 		<hr />
@@ -44,6 +47,17 @@
 					{ id: "004", title: "命名路由切通过params方式" }
 				]
 			};
+		},
+		methods: {
+			pushLink(m) {
+				this.$router.push({
+					path: "/home/message/details",
+					query: {
+						id: m.id,
+						title: m.title
+					}
+				});
+			}
 		}
 	};
 </script>

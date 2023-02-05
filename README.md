@@ -68,7 +68,6 @@ props:{
 
 第二步使用混入：
 
-
 （1）全局混入
 
 ```javascript
@@ -85,9 +84,7 @@ mixins:[xxx]
 
 功能：用于增强Vue
 
-
 本质：包含install方法的一个对象，install的第一个参数是Vue，第二个参数是插件使用者传递的数据。
-
 
 定义插件：
 
@@ -665,20 +662,19 @@ import About from "../components/About.vue";
 import Home from "../components/Home.vue";
 
 const router = new VueRouter({
-	routes: [
-		{
-			path: "/about",
-			component: About
-		},
-		{
-			path: "/home",
-			component: Home
-		}
-	]
+    routes: [
+        {
+            path: "/about",
+            component: About
+        },
+        {
+            path: "/home",
+            component: Home
+        }
+    ]
 });
 
 export default router;
-
 ```
 
 $\quad$ 4.实现切换（active-class可配置active样式类）
@@ -709,25 +705,25 @@ $\quad$ 1.配置路由规则，使用children配置项：
 
 ```javascript
 routes: [
-		{
-			path: "/about",
-			component: About
-		},
-		{
-			path: "/home",
-			component: Home,
-			children:[//通过children配置子路由
-				{
-					path:'news',//此处一定不要写为‘/news’
-					component: News
-				},
-				{
-					path:'message',
-					component: Message
-				}
-			]
-		}
-	]
+        {
+            path: "/about",
+            component: About
+        },
+        {
+            path: "/home",
+            component: Home,
+            children:[//通过children配置子路由
+                {
+                    path:'news',//此处一定不要写为‘/news’
+                    component: News
+                },
+                {
+                    path:'message',
+                    component: Message
+                }
+            ]
+        }
+    ]
 ```
 
 $\quad$ 2.跳转（要写完整路径）：
@@ -747,12 +743,12 @@ $\quad$ 1.传递参数
 <!-- 跳转并携带query参数，to的对象写法 -->
 <router-link
     :to="{
-	    path: '/home/message/details',
-		query: {
-		    id: 666,
-		    title: '你好'
-		   }
-		}">跳转</router-li>
+        path: '/home/message/details',
+        query: {
+            id: 666,
+            title: '你好'
+           }
+        }">跳转</router-li>
 ```
 
 $\quad$ 2.接收参数：
@@ -772,25 +768,25 @@ $\quad\quad$ 1.给路由命名：
 
 ```javascript
 {
-	name:'zhuYe',//给路由命名
-	path: "/home",
-	component: Home,
-	children: [
-		{
-			path: "news",
-			component: News
-		},
-		{
-			path: "message",
-			component: Message,
-			children: [
-				{
-					path: "details",
-					component: Details,
-				}
-			]
-		}
-	]
+    name:'zhuYe',//给路由命名
+    path: "/home",
+    component: Home,
+    children: [
+        {
+            path: "news",
+            component: News
+        },
+        {
+            path: "message",
+            component: Message,
+            children: [
+                {
+                    path: "details",
+                    component: Details,
+                }
+            ]
+        }
+    ]
 }
 ```
 
@@ -863,3 +859,156 @@ $\quad$ 3.接收参数
 $route.params.id
 $route.params.title
 ```
+
+### 7.路由的props配置
+
+$\quad$ 作用：让路由组件更方便的接收到参数
+
+```javascript
+{
+    name:'',
+    path:'',
+    component:Details,
+    //第一种写法，props为对象，该对象中所有的key-value的组合最终都会通过props传递给Details组件
+    //props:{a: 900}
+    //第二种写法：props值为布尔值，当为true时，则把路由收到的所有params参数通过props传递给Detail组件
+    //props：true
+    //第三种写法：props为函数，该函数返回的对象中每一组key-value都会通过props传递给Details组件
+    props(route) {
+      return {
+        id:route.query.id,
+        title:route.query.title
+       }
+    }
+}
+```
+
+### 8.```<router-link>``` 的replace属性
+
+$\quad$ 1.作用：控制路由跳转时操作浏览器历史记录的模式。
+
+$\quad$ 2.浏览器的历史记录有两种写入方式：分别为push和replace，push是追加历史记录，replace是替换当前记录。路由跳转时候默认为push。
+
+$\quad$ 3.如何开启replace模式：```<router-link replace ...>News</router-link>```  
+
+### 9.编程式路由导航
+
+$\quad$ 1.作用：不借助```<router-link>``` 实现路由跳转，让路由跳转更加灵活。
+
+$\quad$ 2.具体编码：
+
+```javascript
+//$router的两个api
+this.$router.push({
+    name:'',
+    params:{
+      id:xxx,
+      title:xxx
+    }
+})
+this.$router.replace({
+    name:'',
+    params:{
+      id:xxx,
+      title:xxx
+    }
+})
+this.$router.forward() //前进
+this.$router.back()//后退
+this.$router.go(3) //可前进也可后退
+```
+
+### 10.缓存路由组件
+
+$\quad$ 1.作用：让展示的路由组件保持挂载，不被销毁。
+
+$\quad$ 2.具体编码
+
+```html
+<keep-alive include="组件名"> <!-- 多个组件用数组 -->
+    <router-view></router-view>
+</keep-alive>
+```
+
+### 11.两个新的声明周期钩子
+
+$\quad$ 1.作用：路由组件所独有的两个钩子，用于捕获路由组件的激活状态。
+
+$\quad$ 2.具体名字：
+
+$\quad\quad$ 1.actived路由组件被激活时触发。
+
+$\quad\quad$ 2.deactived路由组件失活时触发。
+
+### 12.路由守卫
+
+$\quad$ 1.作用：对路由进行权限控制
+
+$\quad$ 2.分类：全局守卫、独享守卫、组件内守卫
+
+$\quad$ 3.全局守卫
+
+```javascript
+//全局前置守卫：初始化时执行、每次路由切换前执行
+outer.beforeEach((to, from next) => {
+  if(to.meta.isAuth){ //判断条件
+    if(){
+      next();
+    }else{
+      xxx
+    }
+  }else{
+    next()
+  }
+})
+//全局后置守卫：初始化时执行、每次切换路由后执行
+router.afterEach(()=>{
+    if(to.meta.title){
+      document.title = to.meta.title;//修改网页title
+    }else{
+      document.title = ''
+  }
+})
+```
+
+$\quad$ 4.独享路由守卫：
+
+```javascript
+//配置在一个需要路由守卫的路由里
+beforeEnter(to, from, next){
+  if(xxxx){
+    next()
+  }else{}
+}
+```
+
+$\quad$ 5.组件内守卫
+
+```javascript
+//进入守卫：通过路由规则，进入该组件时被调用
+beforeRouteEnter(to, from, next) {
+  
+}
+//离开守卫：通过路由规则，离开该组件时被调用
+beforeRouteLeave(to, from, next) {
+  
+}
+```
+
+### 13.路由器的两种工作模式
+
+$\quad$ ﻿﻿﻿1.对于一个url来说，什么是hash值？——#及其后面的内容就是hash值。
+
+$\quad$ 2.hash值不会包含在 HTTP 请求中，即：hash值不会带给服务器。
+
+$\quad$ 3.hash模式：
+
+- ﻿地址中永远带着#号，不美观。
+- ﻿﻿若以后将地址通过第三方手机app分享，若app校验严格，则地址会被标记为不合法。
+- ﻿﻿兼容性较好。
+
+$\quad$ 4.history模式：
+
+- ﻿﻿﻿地址干净，美观。
+- ﻿﻿兼容性和hash模式相比略差。
+- ﻿﻿应用部署上线时需要后端人员支持，解决刷新页面服务端404的问题。

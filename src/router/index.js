@@ -30,6 +30,12 @@ const router = new VueRouter({
 						{
 							path: "details",
 							component: Details,
+							props(route){
+								return {
+									id: route.query.id,
+									title: route.query.title
+								}
+							}
 						},
 						{
 							name:'detailsParams',
