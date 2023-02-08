@@ -18,20 +18,20 @@ this.$refs.xxx
 ## 配置项props
 
 功能：让组件接收外部传过来的数据
-$\quad$1.传递数据
+$\quad$ 1.传递数据
 
 ```html
 <h1 name="xxxx"/>
 ```
 
-$\quad$2.接收数据
-$\quad$第一种方式（只接收）：
+$\quad$ 2.接收数据
+$\quad$ 第一种方式（只接收）：
 
 ```javascript
 props['name']
 ```
 
-$\quad$第二种方式（限制类型）：
+$\quad$ 第二种方式（限制类型）：
 
 ```javascript
 props:{
@@ -39,7 +39,7 @@ props:{
 }
 ```
 
-$\quad$第三种方式（限制类型、限制必要性、指定默认值）：
+ 第三种方式（限制类型、限制必要性、指定默认值）：
 
 ```javascript
 props:{
@@ -110,19 +110,19 @@ Vue.use()
 
 ## 总结TodoList案例
 
-$\quad$1.组件化编码流程：
-$\quad\quad$(1)拆分静态组件：组件要按照功能点拆分，命名不要与html元素冲突。
-$\quad\quad$(2)实现动态组件：考虑好数据的存放位置，数据是一个组件在用，还是一些组件在用：
+$\quad$ 1.组件化编码流程：
+$\quad\quad$ (1)拆分静态组件：组件要按照功能点拆分，命名不要与html元素冲突。
+$\quad\quad$ (2)实现动态组件：考虑好数据的存放位置，数据是一个组件在用，还是一些组件在用：
 
-$\quad\quad\quad$1）一个组件在用时，放在组件自身即可。
+$\quad\quad\quad$ 1）一个组件在用时，放在组件自身即可。
 
-$\quad\quad\quad$2）一些组件在用时，放在他们共同的父组件上（状态提升）
-$\quad\quad$(3)实现交互：从绑定事件开始。
-$\quad$2.props适用于：
-$\quad\quad$（1）父组件===>子组件通信
-$\quad\quad$（2）子组件===>父组件通信（要求父组件先给一个函数）
-$\quad$3.使用v-model时要切记：v-model绑定的值不能是props传过来的值，因为props是不可以修改的
-$\quad$4.props传过来的若是对象类型的值，修改对象中的属性Vue不会报错，但不推荐这样做
+$\quad\quad\quad$ 2）一些组件在用时，放在他们共同的父组件上（状态提升）
+$\quad\quad$ (3)实现交互：从绑定事件开始。
+$\quad$ 2.props适用于：
+$\quad\quad$ （1）父组件===>子组件通信
+$\quad\quad$ （2）子组件===>父组件通信（要求父组件先给一个函数）
+$\quad$ 3.使用v-model时要切记：v-model绑定的值不能是props传过来的值，因为props是不可以修改的
+$\quad$ 4.props传过来的若是对象类型的值，修改对象中的属性Vue不会报错，但不推荐这样做
 
 ## 组件的自定义事件
 
@@ -132,7 +132,7 @@ $\quad$4.props传过来的若是对象类型的值，修改对象中的属性Vue
 
 3. 绑定自定义事件：
 
-$\quad$(1).第一种方式，在父组件中
+$\quad$ (1).第一种方式，在父组件中
 
 ```html
 <Demo @demo='test'></Demo>
@@ -140,7 +140,7 @@ $\quad$(1).第一种方式，在父组件中
 <Demo v-on:demo='test'></Demo>
 ```
 
-$\quad$(2).第二种方式，在父组件中
+$\quad$ (2).第二种方式，在父组件中
 
 ```javascript
 <Demo ref="demo"></Demo>
@@ -150,7 +150,7 @@ mounted(){
 }
 ```
 
-$\quad$(3).若想让自定义事件只触发一次，可以使用once修饰符，或者$once方法。
+$\quad$ (3).若想让自定义事件只触发一次，可以使用once修饰符，或者$once方法。
 4.触发自定义事件：
 
 ```javascript
@@ -188,7 +188,7 @@ new Vue({
 
 3.使用事件总线：
 
-$\quad$1.接收数据：A组件想接收数据，则在A组件中给$bus绑定自定义事件，事件的回调留在A组件自身
+$\quad$ 1.接收数据：A组件想接收数据，则在A组件中给$bus绑定自定义事件，事件的回调留在A组件自身
 
 ```javascript
 methods() {
@@ -200,7 +200,7 @@ mounted() {
 }
 ```
 
-$\quad$2.提供数据：```this.$bus.$emit('xxx',数据)```
+$\quad$ 2.提供数据：```this.$bus.$emit('xxx',数据)```
 4.最好在beforeDestory钩子中，用$off去解绑当前组件所用到的事件。
 
 ## 消息订阅与发布（pubsub库）
@@ -210,11 +210,11 @@ $\quad$2.提供数据：```this.$bus.$emit('xxx',数据)```
 
 2.使用步骤：
 
-$\quad$1.安装pubsub，```npm i pubsub-js```
+$\quad$ 1.安装pubsub，```npm i pubsub-js```
 
-$\quad$2.引入：```import pubsub from 'pubsub-js'```
+$\quad$ 2.引入：```import pubsub from 'pubsub-js'```
 
-$\quad$3.接收数据：A组件想接收数据，则在A组件中订阅消息，订阅的回调留在A组件自身。
+$\quad$ 3.接收数据：A组件想接收数据，则在A组件中订阅消息，订阅的回调留在A组件自身。
 
 ```javascript
 methods(){
@@ -225,9 +225,9 @@ mounted() {
 }
 ```
 
-$\quad$4.提供数据：```pubsub.publish('xxx',数据)```
+$\quad$ 4.提供数据：```pubsub.publish('xxx',数据)```
 
-$\quad$5.最好在beforeDestory钩子中，用```pubsub.unsubscribe(pid)```取消订阅。
+$\quad$ 5.最好在beforeDestory钩子中，用```pubsub.unsubscribe(pid)```取消订阅。
 
 ## nextTick
 
@@ -270,7 +270,7 @@ $\quad$(3).备注：若有多个元素需要过渡，则使用```<transition-gro
 
 方法一：
 
-$\quad$在vue.config.js中添加如下配置：
+$\quad$ 在vue.config.js中添加如下配置：
 
 ```javascript
 devServer:{
@@ -288,7 +288,7 @@ devServer:{
 
 方法二：
 
-$\quad$编写```vue.config.js```具体代理规则
+$\quad$ 编写```vue.config.js```具体代理规则
 
 ```javascript
 module.exports={
@@ -416,13 +416,13 @@ module.exports={
 
 ### 1.概念
 
-$\quad$在Vue中实现集中式状态（数据）管理的一个vue插件，对vue应用中多个组件的共享状态进行集中式的管理（读/写），也是一种组件间的通信方式，且属于任意组件间通信。
+$\quad$ 在Vue中实现集中式状态（数据）管理的一个vue插件，对vue应用中多个组件的共享状态进行集中式的管理（读/写），也是一种组件间的通信方式，且属于任意组件间通信。
 
 ![Vuex图示](https://vuex.vuejs.org/vuex.png)
 
 ### 2.何时使用？
 
-$\quad$多个组件需要共享数据时
+$\quad$ 多个组件需要共享数据时
 
 ### 3.搭建vuex环境
 
@@ -676,11 +676,11 @@ $\quad$ 2.前端路由：key是路径，value是组件。
 
 ### 1.基本使用
 
-$\quad$1.安装vue-touter，命令：```npm i vue-router```
+$\quad$ 1.安装vue-touter，命令：```npm i vue-router```
 
-$\quad$2.应用插件：```Vue.use(VueRouter)```
+$\quad$ 2.应用插件：```Vue.use(VueRouter)```
 
-$\quad$3.编写router配置项：
+$\quad$ 3.编写router配置项：
 
 ```javascript
 // 用于创建整个应用的路由器
