@@ -18,20 +18,20 @@ this.$refs.xxx
 ## 配置项props
 
 功能：让组件接收外部传过来的数据
-1.传递数据
+$\quad$1.传递数据
 
 ```html
 <h1 name="xxxx"/>
 ```
 
-2.接收数据
-$\quad$ 第一种方式（只接收）：
+$\quad$2.接收数据
+$\quad$第一种方式（只接收）：
 
 ```javascript
 props['name']
 ```
 
-$\quad$ 第二种方式（限制类型）：
+$\quad$第二种方式（限制类型）：
 
 ```javascript
 props:{
@@ -39,7 +39,7 @@ props:{
 }
 ```
 
-$\quad$ 第三种方式（限制类型、限制必要性、指定默认值）：
+$\quad$第三种方式（限制类型、限制必要性、指定默认值）：
 
 ```javascript
 props:{
@@ -111,24 +111,26 @@ Vue.use()
 ## 总结TodoList案例
 
 $\quad$1.组件化编码流程：
-$\quad$ （1）拆分静态组件：组件要按照功能点拆分，命名不要与html元素冲突。
-$\quad$ （2）实现动态组件：考虑好数据的存放位置，数据是一个组件在用，还是一些组件在用：
+$\quad\quad$(1)拆分静态组件：组件要按照功能点拆分，命名不要与html元素冲突。
+$\quad\quad$(2)实现动态组件：考虑好数据的存放位置，数据是一个组件在用，还是一些组件在用：
 
-$\quad$ $\qquad$1）一个组件在用时，放在组件自身即可。
+$\quad\quad\quad$1）一个组件在用时，放在组件自身即可。
 
-$\quad$ $\qquad$2）一些组件在用时，放在他们共同的父组件上（状态提升）
-$\quad$ （3）实现交互：从绑定事件开始。
+$\quad\quad\quad$2）一些组件在用时，放在他们共同的父组件上（状态提升）
+$\quad\quad$(3)实现交互：从绑定事件开始。
 $\quad$2.props适用于：
-$\qquad$（1）父组件===>子组件通信
-$\qquad$（2）子组件===>父组件通信（要求父组件先给一个函数）
+$\quad\quad$（1）父组件===>子组件通信
+$\quad\quad$（2）子组件===>父组件通信（要求父组件先给一个函数）
 $\quad$3.使用v-model时要切记：v-model绑定的值不能是props传过来的值，因为props是不可以修改的
 $\quad$4.props传过来的若是对象类型的值，修改对象中的属性Vue不会报错，但不推荐这样做
 
 ## 组件的自定义事件
 
-1.一种组件通信的方式，适用于子组件==>父组件
-2.使用场景：A是父组件，B是子组件，B想给A传数据，那么就要在A中给B绑定自定义事件（事件的回调在A中）
-3.绑定自定义事件：
+1. 一种组件通信的方式，适用于子组件==>父组件
+
+2. 使用场景：A是父组件，B是子组件，B想给A传数据，那么就要在A中给B绑定自定义事件(事件的回调在A中)
+
+3. 绑定自定义事件：
 
 $\quad$(1).第一种方式，在父组件中
 
@@ -188,7 +190,7 @@ new Vue({
 
 $\quad$1.接收数据：A组件想接收数据，则在A组件中给$bus绑定自定义事件，事件的回调留在A组件自身
 
-```JavaScript
+```javascript
 methods() {
   demo(data){...}
 }
@@ -204,6 +206,8 @@ $\quad$2.提供数据：```this.$bus.$emit('xxx',数据)```
 ## 消息订阅与发布（pubsub库）
 
 1.一种组件间通信的方式，适用于任意组件间通信。
+
+
 2.使用步骤：
 
 $\quad$1.安装pubsub，```npm i pubsub-js```
@@ -221,13 +225,18 @@ mounted() {
 }
 ```
 
-4.提供数据：```pubsub.publish('xxx',数据)```
-5.最好在beforeDestory钩子中，用```pubsub.unsubscribe(pid)```取消订阅。
+$\quad$4.提供数据：```pubsub.publish('xxx',数据)```
+
+$\quad$5.最好在beforeDestory钩子中，用```pubsub.unsubscribe(pid)```取消订阅。
 
 ## nextTick
 
 1.语法：```this.$nextTick(回调函数)```
+
+
 2.作用：在下一次DOM更新结束后执行其指定的回调。
+
+
 3.什么时候用：当改变数据后，要基于更新后的新DOM进行某些操作时，要在nextTick所指定的回调函数中执行。
 
 ## Vue封装的过渡与动画
@@ -237,15 +246,15 @@ mounted() {
 $\quad$(1).准备好样式：
 
 + 元素进入时的样式：
-  $\qquad$1.v-enter:进入的起点
-  $\qquad$2.v-enter-active:进入的过程中
-  $\qquad$3.v-enter-to:进入的终点
+  + v-enter:进入的起点
+  + v-enter-active:进入的过程中
+  + v-enter-to:进入的终点
 + 元素离开时的样式：
-  $\qquad$1.v-leave:离开的起点
-  $\qquad$2.v-leave-active:离开的过程中
-  $\qquad$3.v-leave-to:离开的终点
+  + v-leave:离开的起点
+  + v-leave-active:离开的过程中
+  + v-leave-to:离开的终点
 
-$\quad$(2).使用<transition>包裹要过渡的元素，并配置name属性
+$\quad$(2).使用```<transition>```包裹要过渡的元素，并配置name属性
 
 ```html
 <transition name='hello'>
@@ -255,11 +264,12 @@ $\quad$(2).使用<transition>包裹要过渡的元素，并配置name属性
 </transition>
 ```
 
-$\quad$(3).备注：若有多个元素需要过渡，则使用<transition-group>,且每个元素都需要指定的key值。
+$\quad$(3).备注：若有多个元素需要过渡，则使用```<transition-group>```,且每个元素都需要指定的key值。
 
 ## vue脚手架配置代理
 
 方法一：
+
 $\quad$在vue.config.js中添加如下配置：
 
 ```javascript
@@ -269,11 +279,16 @@ devServer:{
 ```
 
 说明：
-$\quad$1.优点：配置简单，请求资源时直接发送给前端（8080）即可。
-$\quad$2.缺点：不能配置多个代理，不能灵活的控制请求是否走代理。
-$\quad$3.工作方式：若按照上述配置代理，当请求了前端不存在的资源时，那么请求会转发给服务器（优先匹配前端资源）
+
+1. 优点：配置简单，请求资源时直接发送给前端（8080）即可。
+
+2. 缺点：不能配置多个代理，不能灵活的控制请求是否走代理。
+
+3. 工作方式：若按照上述配置代理，当请求了前端不存在的资源时，那么请求会转发给服务器（优先匹配前端资源)
+
 方法二：
-$\quad$编写vue.config.js具体代理规则：
+
+$\quad$编写```vue.config.js```具体代理规则
 
 ```javascript
 module.exports={
@@ -300,55 +315,67 @@ module.exports={
 ```
 
 说明：
-$\quad$1.优点：可以配置多个代理，且可以灵活的控制请求是否走代理。
-$\quad$2.配置略微繁琐，请求资源时必须加前缀。
 
-##插槽
-$\quad$1.作用:让父组件可以向子组件指定位置插入html结构，也是一种组件间通信的方式，适用于父组件==>子组件
-$\quad$2.分类：默认插槽、具名插槽、作用域插槽
-$\quad$3.使用方式
-$\qquad$1.默认插槽
+1. 优点：可以配置多个代理，且可以灵活的控制请求是否走代理。
 
-```html
-父组件中：
-<Category>
-  <div>html结构</div>
-</Category>
-子组件中：
-<template>
-  <div>
-    <!-- 定义插槽 -->
-    <slot>插槽默认内容...</slot>
-  </div>
-</template>
-```
+2. 配置略微繁琐，请求资源时必须加前缀。
 
-$\qquad$2.具名插槽
+## 插槽
 
-```html
-父组件中：
-<Category>
-  <template slot="center">
-    <div>html结构1</div>
-  </template>
-  <!-- v-slot是新的语法 -->
-  <template v-slot:footer>
-    <div>html结构2</div>
-  </template>
-</Category>
-子组件中：
-<template>
-  <div>
-    <!-- 定义插槽 -->
-    <slot name="center">插槽黙以内容...</slot>
-    <slot name="footer">插槽默认内容...</slot>
-  </div>
-</template>
-```
+1. 作用:让父组件可以向子组件指定位置插入html结构，也是一种组件间通信的方式，适用于父组件==>子组件
 
-$\qquad$3.作用域插槽
-$\qquad\qquad$1.理解：数据在组件的自身vue文件中，但根据数据生成的结构需要组件的使用者来决定。
-$\qquad\qquad$2.具体编码：
+2. 分类：默认插槽、具名插槽、作用域插槽
+
+3. 使用方式
+   
+   1. 默认插槽
+      
+      ```html
+      父组件中：
+      <Category>
+        <div>html结构</div>
+      </Category>
+      子组件中：
+      <template>
+        <div>
+          <!-- 定义插槽 -->
+          <slot>插槽默认内容...</slot>
+        </div>
+      </template>
+      ```
+   
+   2. 具名插槽
+      
+      ```html
+      父组件中：
+      <Category>
+        <template slot="center">
+          <div>html结构1</div>
+        </template>
+        <!-- v-slot是新的语法 -->
+        <template v-slot:footer>
+          <div>html结构2</div>
+        </template>
+      </Category>
+      子组件中：
+      <template>
+        <div>
+          <!-- 定义插槽 -->
+          <slot name="center">插槽黙以内容...</slot>
+          <slot name="footer">插槽默认内容...</slot>
+        </div>
+      </template>
+      ```
+      
+      
+      
+   
+   3. 作用域插槽
+      
+      
+      1. 理解：数据在组件的自身vue文件中，但根据数据生成的结构需要组件的使用者来决定。
+      
+      2. 具体编码：
 
 ```html
 父组件中：
@@ -399,92 +426,94 @@ $\quad$多个组件需要共享数据时
 
 ### 3.搭建vuex环境
 
-$\quad$1.创建文件 src/store/index.js
+1. 创建文件 src/store/index.js
+   
+   ```javascript
+   //引入vue核心库
+   import Vue from 'vue'
+   import Vuex from 'vuex'
+   //应用Vuex插件
+   Vue. use(Vuex)
+   //淮备actions对象 响应组件中用户的动作
+   const actions = {}
+   //准备mutations对象 修改state中的数据
+   const mutations ={}
+   //准备state对象 保存具体的数据
+   const state = {}
+   //创建并暴露store
+   export default new Vuex.Store({
+     actions, 
+     mutations, 
+     state
+   })
+   
+   ```
 
-```javascript
-//引入vue核心库
-import Vue from 'vue'
-import Vuex from 'vuex'
-//应用Vuex插件
-Vue. use(Vuex)
-//淮备actions对象 响应组件中用户的动作
-const actions = {}
-//准备mutations对象 修改state中的数据
-const mutations ={}
-//准备state对象 保存具体的数据
-const state = {}
-//创建并暴露store
-export default new Vuex.Store({
-  actions, 
-  mutations, 
-  state
-})
-```
-
-$\quad$2.在main.js中创建vm时传入store配置项
-
-```javascript
-// 引入store
-import store from './store';
-new Vue({
-  el: `#app`,
-  render: h => h(App),
-  store
-})
-```
+2. 在main.js中创建vm时传入store配置项
+   
+   ```javascript
+   // 引入store
+   import store from './store';
+   new Vue({
+     el: `#app`,
+     render: h => h(App),
+     store
+   })
+   ```
 
 ### 4.基本使用
 
-$\quad\quad$1.初始化数据、配置actions、配置mutations、操作文件store.js
+1. 初始化数据、配置actions、配置mutations、操作文件store.js
+   
+   ```javascript
+   import Vuex from "vuex";
+   import Vue from "vue";
+   Vue.use(Vuex);
+   
+   // action:用于响应组件中的动作
+   const actions = {
+     // 这两个只是转发，可以省略，组件直接调用commit即可
+       // increment(context, value) {
+       //     context.commit("Increment", value);
+       // },
+       // decrement(context, value) {
+       //     context.commit("Decrement", value);
+       // },
+       incrementOdd(context, value) {
+           if (context.state.sum % 2) {
+               context.commit("Increment", value);
+           }
+       },
+       incrementWait(context, value) {
+           setTimeout(() => {
+               context.commit("Increment", value);
+           }, 500);
+       }
+   };
+   // 用于存储数据
+   const state = {sum: 0};
+   // 用于操作数据（state）
+   const mutations = {
+       Increment(state, value) {
+           state.sum += value;
+       },
+       Decrement(state, value) {
+           state.sum -= value;
+       }
+   };
+   
+   export default new Vuex.Store({
+       actions,
+       mutations,
+       state
+   });
+   ```
 
-```javascript
-import Vuex from "vuex";
-import Vue from "vue";
-Vue.use(Vuex);
+2. 组件中读取vuex中的数据:```$store.state.sum```
 
-// action:用于响应组件中的动作
-const actions = {
-  // 这两个只是转发，可以省略，组件直接调用commit即可
-    // increment(context, value) {
-    //     context.commit("Increment", value);
-    // },
-    // decrement(context, value) {
-    //     context.commit("Decrement", value);
-    // },
-    incrementOdd(context, value) {
-        if (context.state.sum % 2) {
-            context.commit("Increment", value);
-        }
-    },
-    incrementWait(context, value) {
-        setTimeout(() => {
-            context.commit("Increment", value);
-        }, 500);
-    }
-};
-// 用于存储数据
-const state = {sum: 0};
-// 用于操作数据（state）
-const mutations = {
-    Increment(state, value) {
-        state.sum += value;
-    },
-    Decrement(state, value) {
-        state.sum -= value;
-    }
-};
+3. 组件中修改vuex中的数据: `$store.dispatch('action中的方法名',数据)`或 `$store.commit('mutations中的方法名',数据）`
 
-export default new Vuex.Store({
-    actions,
-    mutations,
-    state
-});
-```
-
-$\quad$2.组件中读取vuex中的数据:$store.state.sum
-
-$\quad$3.组件中修改vuex中的数据: `$store.dispatch('action中的方法名',数据)`或 `$store.commit('mutations中的方法名',数据）`
-$\quad$**备注**若没有网络请求或其他业务逻辑，组件中也可以越过actions，即不写dispatch，直接编写 commit
+**备注**:若没有网络请求或其他业务逻辑，组件中也可以越过actions，即不写dispatch，直接编写 commit
 
 ### 5.getters的使用
 
@@ -507,137 +536,137 @@ export default new Vuex.Store({
 
 ### 6.四个map方法的使用
 
-$\quad$1.**mapState方法**:用于帮我们映射state中的数据为计算属性
+1. **mapState方法**:用于帮我们映射state中的数据为计算属性
+   
+   ```javascript
+   computed: {
+     // 借助mapState生成计算属性，sum、school、subject（对象写法）
+     ...mapState({sum:'sum',school:'school',subject:'subject'});
+     // 借助mapState生成计算属性，sum、school、subject（数组写法）
+     ...mapState(['sum','school','subject'])
+   }
+   ```
 
-```javascript
-computed: {
-  // 借助mapState生成计算属性，sum、school、subject（对象写法）
-  ...mapState({sum:'sum',school:'school',subject:'subject'});
-  // 借助mapState生成计算属性，sum、school、subject（数组写法）
-  ...mapState(['sum','school','subject'])
-}
-```
+2. **mapGetters方法**:用于帮我们映射getters中的数据为计算属性
+   
+   ```javascript
+   computed: {
+     // 借助mapState生成计算属性，bigSum（对象写法）
+     ...mapGetters({bigSum:'bigSum'});
+     // 借助mapState生成计算属性，bigSum（数组写法）
+     ...mapState(['bigSum']);
+   }
+   ```
 
-$\quad$2.**mapGetters方法**:用于帮我们映射getters中的数据为计算属性
+3. **mapActions方法**:用于帮我们生成与action对话中的方法,即包含$store.dispatch(xxx)的函数
+   
+   ```javascript
+   methods: {
+   //靠mapActions生成：incrementOdd、incrementWait（对象形式）
+   ...mapActions ({incrementOdd: 'incrementOdd', incrementWait: 'incrementWait').
+   //靠mapActions生成：incrementOdd、incrementWait（数组形式）
+   ...mapActions (['incrementOdd', 'incrementWait'])
+   ```
 
-```javascript
-computed: {
-  // 借助mapState生成计算属性，bigSum（对象写法）
-  ...mapGetters({bigSum:'bigSum'});
-  // 借助mapState生成计算属性，bigSum（数组写法）
-  ...mapState(['bigSum']);
-}
-```
-
-$\quad$3.**mapActions方法**:用于帮我们生成与action对话中的方法,即包含$store.dispatch(xxx)的函数
-
-```javascript
-methods: {
-//靠mapActions生成：incrementOdd、incrementWait（对象形式）
-...mapActions ({incrementOdd: 'incrementOdd', incrementWait: 'incrementWait').
-//靠mapActions生成：incrementOdd、incrementWait（数组形式）
-...mapActions (['incrementOdd', 'incrementWait'])
-```
-
-$\quad$4.**mapMutations方法**:用于帮我们生成与mutations对话中的方法,即包含$store.commit(xxx)的函数
-
-```javascript
-methods: {
-//靠mapMutations生成：incrementOdd、incrementWait（对象形式）
-...mapMutations ({incrementOdd: 'IncrementOdd', incrementWait: 'IncrementWait').
-//靠mapActions生成：incrementOdd、incrementWait（数组形式）
-...mapMutations (['IncrementOdd', 'IncrementWait'])
-```
-
-$\quad$**备注:** mapActions与mapMutations使用时，若需要传递参数：在模版中绑定事件时传递好参数，否则参数是事件对象。
+4. **mapMutations方法**:用于帮我们生成与mutations对话中的方法,即包含$store.commit(xxx)的函数
+   
+   ```javascript
+   methods: {
+   //靠mapMutations生成：incrementOdd、incrementWait（对象形式）
+   ...mapMutations ({incrementOdd: 'IncrementOdd', incrementWait: 'IncrementWait').
+   //靠mapActions生成：incrementOdd、incrementWait（数组形式）
+   ...mapMutations (['IncrementOdd', 'IncrementWait'])
+   ```
+   
+   **备注:** mapActions与mapMutations使用时，若需要传递参数：在模版中绑定事件时传递好参数，否则参数是事件对象。
 
 ### 7.模块化+命名空间
 
-$\quad\quad$1.目的：让代码更好维护，让多种数据分类更加明确 
+1. 目的：让代码更好维护，让多种数据分类更加明确 
 
-$\quad\quad$2.修改store.js
+2. 修改store.js
+   
+   ```javascript
+   const countOptions = {
+       namespaced: true,
+       actions: {},
+       mutations: {},
+       state: {},
+       getters: {}
+   };
+   const personOptions = {
+       namespaced: true,
+       actions: {},
+       mutations: {},
+       state: {},
+       getters: {}
+   };
+   const store = new Vuex.Store({
+       modules:{
+           count: countOptions,
+           person: personOptions
+       }
+   });
+   ```
+   
+   ```javascript
+   const countOptions = {
+       namespaced: true,
+       actions: {},
+       mutations: {},
+       state: {},
+       getters: {}
+   };
+   const personOptions = {
+       namespaced: true,
+       actions: {},
+       mutations: {},
+       state: {},
+       getters: {}
+   };
+   const store = new Vuex.Store({
+       modules:{
+           count: countOptions,
+           person: personOptions
+       }
+   });
+   ```
 
-```javascript
-const countOptions = {
-    namespaced: true,
-    actions: {},
-    mutations: {},
-    state: {},
-    getters: {}
-};
-const personOptions = {
-    namespaced: true,
-    actions: {},
-    mutations: {},
-    state: {},
-    getters: {}
-};
-const store = new Vuex.Store({
-    modules:{
-        count: countOptions,
-        person: personOptions
-    }
-});
-```
+3. 开启命名空间后，组件中读取state数据
+   
+   ```javascript
+     //方式一：自己直接读取
+     this.$store.state.countOption.sum
+     // 方式二：借助mapState读取
+     ...mapState('countOption',['sum'])
+   ```
 
-```javascript
-const countOptions = {
-    namespaced: true,
-    actions: {},
-    mutations: {},
-    state: {},
-    getters: {}
-};
-const personOptions = {
-    namespaced: true,
-    actions: {},
-    mutations: {},
-    state: {},
-    getters: {}
-};
-const store = new Vuex.Store({
-    modules:{
-        count: countOptions,
-        person: personOptions
-    }
-});
-```
+4. 开启命名空间后，组件中读取getters数据
+   
+   ```javascript
+     //方式一：自己直接读取
+     this.$store.getters['countOption/bigNum']
+     // 方式二：借助mapGetters读取
+     ...mapGetters('countOption',['bigNum'])
+   ```
 
-$\quad$3.开启命名空间后，组件中读取state数据
+5. 开启命名空间后，组件中调用dispatch
+   
+   ```javascript
+     //方式一：自己直接dispatch
+     this.$store.dispatch('countOptions/increment',value)
+     // 方式二：借助mapActions读取
+     ...mapActions('countOption',['increment'])
+   ```
 
-```javascript
-  //方式一：自己直接读取
-  this.$store.state.countOption.sum
-  // 方式二：借助mapState读取
-  ...mapState('countOption',['sum'])
-```
-
-$\quad$4.开启命名空间后，组件中读取getters数据
-
-```javascript
-  //方式一：自己直接读取
-  this.$store.getters['countOption/bigNum']
-  // 方式二：借助mapGetters读取
-  ...mapGetters('countOption',['bigNum'])
-```
-
-$\quad$5.开启命名空间后，组件中调用dispatch
-
-```javascript
-  //方式一：自己直接dispatch
-  this.$store.dispatch('countOptions/increment',value)
-  // 方式二：借助mapActions读取
-  ...mapActions('countOption',['increment'])
-```
-
-$\quad$6.开启命名空间后，组件中调用commit
-
-```javascript
-  //方式一：自己直接commit
-  this.$store.commit('countOptions/Increment',value)
-  // 方式二：借助mapMutations读取
-  ...mapMutations('countOption',{increment:'Increment'})
-```
+6. 开启命名空间后，组件中调用commit
+   
+   ```javascript
+     //方式一：自己直接commit
+     this.$store.commit('countOptions/Increment',value)
+     // 方式二：借助mapMutations读取
+     ...mapMutations('countOption',{increment:'Increment'})
+   ```
 
 ## 路由
 
@@ -647,11 +676,11 @@ $\quad$ 2.前端路由：key是路径，value是组件。
 
 ### 1.基本使用
 
-$\quad$ 1.安装vue-touter，命令：```npm i vue-router```
+$\quad$1.安装vue-touter，命令：```npm i vue-router```
 
-$\quad$ 2.应用插件：```Vue.use(VueRouter)```
+$\quad$2.应用插件：```Vue.use(VueRouter)```
 
-   3.编写router配置项：
+$\quad$3.编写router配置项：
 
 ```javascript
 // 用于创建整个应用的路由器
@@ -987,11 +1016,11 @@ $\quad$ 5.组件内守卫
 ```javascript
 //进入守卫：通过路由规则，进入该组件时被调用
 beforeRouteEnter(to, from, next) {
-  
+
 }
 //离开守卫：通过路由规则，离开该组件时被调用
 beforeRouteLeave(to, from, next) {
-  
+
 }
 ```
 
